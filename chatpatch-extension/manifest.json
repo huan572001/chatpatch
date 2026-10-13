@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "ChatPatch",
+  "version": "1.0.0",
+  "description": "ChatPatch connects ChatGPT chats to local projects and merges downloaded ZIP updates without a ZIP inbox folder.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "storage",
+    "tabs",
+    "downloads",
+    "sidePanel",
+    "offscreen"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "file:///*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "ChatPatch — mở bảng điều khiển / Open side panel"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

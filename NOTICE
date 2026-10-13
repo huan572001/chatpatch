@@ -1,0 +1,14 @@
+ChatPatch
+Copyright 2026 Ethan Lai
+
+The original ChatPatch source and documentation are licensed under the
+Apache License, Version 2.0. See LICENSE.
+
+This distribution includes JSZip, used under its MIT license:
+Copyright (c) 2009-2016 Stuart Knightley, David Duponchel,
+Franz Buchinger, António Afonso.
+The full third-party license is preserved in lib/JSZIP_LICENSE.txt in the
+extension directory. See THIRD_PARTY_NOTICES.md for details.
+
+ChatPatch is an independent project and is not an official product of
+OpenAI or Google.

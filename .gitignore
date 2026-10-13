@@ -1,0 +1,32 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.aws/
+.codex/
+.agents/
+
+# Dependencies, build output and local artifacts
+node_modules/
+dist/
+build/
+coverage/
+artifacts/
+*.log
+*.crx
+*.zip
+!chatpatch-extension/tests/fixtures/*.zip
+.chatpatch-backups/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo

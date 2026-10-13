@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ChatPatch</title>
+  <link rel="stylesheet" href="sidepanel.css"/>
+</head>
+<body>
+<main class="app-shell">
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">C</span>
+      <div class="brand-copy"><h1>ChatPatch</h1><p data-i18n="app.subtitle">Đồng bộ mã nguồn từ ChatGPT</p></div>
+    </div>
+    <div class="locale-switcher">
+      <label for="lang-select" data-i18n="language.label">Ngôn ngữ</label>
+      <select id="lang-select" aria-label="Language"><option value="vi">VN</option><option value="en">EN</option></select>
+    </div>
+  </header>
+
+  <div class="overview"><span class="overview-label" data-i18n="overview.label">CÁCH HOẠT ĐỘNG</span>
+    <p data-i18n="overview.description">Liên kết một cuộc chat với thư mục trên máy. Khi tải ZIP từ chat đó, ChatPatch sẽ cập nhật các file tương ứng.</p>
+  </div>
+
+  <section class="section" aria-labelledby="file-heading">
+    <div class="section-head">
+      <h2 id="file-heading"><span class="step">01</span><span data-i18n="files.title">Quyền đọc ZIP đã tải</span></h2>
+      <span id="file-badge" class="status" data-i18n="files.checking">Đang kiểm tra</span>
+    </div>
+    <p class="hint" data-i18n="files.description">Không cần thư mục nhận ZIP. Bật quyền đọc file URLs trong Chrome một lần để ChatPatch đọc đúng ZIP vừa tải. Quyền này cho phép đọc các file local khác, chỉ bật nếu bạn tin cậy Extension.</p>
+    <button id="file-permission" class="secondary wide" data-i18n="files.settings">Mở cài đặt quyền Extension</button>
+    <p id="file-permission-info" class="detail-line"></p>
+  </section>
+
+  <section class="section" aria-labelledby="chat-heading">
+    <div class="section-head">
+      <h2 id="chat-heading"><span class="step">02</span><span data-i18n="chat.title">Cuộc chat hiện tại</span></h2>
+      <button id="refresh-chat" class="iconbtn" title="Làm mới" aria-label="Làm mới" data-i18n-title="chat.refresh">↻</button>
+    </div>
+    <div id="current" class="current" aria-live="polite"><span class="secondary-text" data-i18n="chat.detecting">Đang nhận diện cuộc chat…</span></div>
+    <div id="chat-actions" class="chat-actions">
+      <button id="link-folder" class="primary wide" data-i18n="chat.link">Liên kết thư mục với chat này</button>
+      <button id="unlink-folder" class="danger hidden" data-i18n="chat.unlink">Hủy liên kết</button>
+    </div>
+    <p id="current-help" class="hint" data-i18n="chat.help">Mở cuộc chat ChatGPT có địa chỉ chứa /c/ rồi làm mới.</p>
+  </section>
+
+  <section class="section" aria-labelledby="links-heading">
+    <div class="section-head">
+      <h2 id="links-heading"><span class="step">03</span><span data-i18n="links.title">Các thư mục đã liên kết</span></h2>
+      <span id="linked-count" class="counter">0</span>
+    </div>
+    <div id="links" class="list"><p class="muted" data-i18n="links.empty">Chưa có liên kết nào.</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="tools-heading">
+    <div class="section-head"><h2 id="tools-heading" data-i18n="tools.title">Công cụ đồng bộ</h2></div>
+    <p class="hint" data-i18n="tools.description">Nếu ZIP không tự cập nhật, kiểm tra tải xuống gần đây hoặc chọn file ZIP thủ công.</p>
+    <div class="action-grid"><button id="check-downloads" class="secondary" data-i18n="tools.check">Kiểm tra tải xuống</button><button id="manual-zip" class="secondary" data-i18n="tools.manual">Chọn ZIP cập nhật</button></div>
+    <p id="download-results" class="detail-line"></p>
+  </section>
+
+  <section class="section" aria-labelledby="activity-heading">
+    <div class="section-head"><h2 id="activity-heading" data-i18n="activity.title">Lịch sử hoạt động</h2><button id="retry-all" class="textbtn" data-i18n="activity.retryAll">Thử lại ZIP lỗi</button></div>
+    <div id="events" class="events"><p class="muted" data-i18n="activity.empty">Chưa có hoạt động nào.</p></div>
+  </section>
+
+  <section class="section settings" aria-labelledby="access-heading">
+    <div class="section-head"><h2 id="access-heading" data-i18n="access.title">Quyền truy cập</h2></div>
+    <p class="hint" data-i18n="access.description">Chrome đôi khi yêu cầu cấp lại quyền sau khi khởi động. Mỗi lượt xác nhận chỉ áp dụng cho một thư mục.</p>
+    <p id="permission-summary" class="detail-line"></p>
+    <button id="reauthorize" class="secondary wide" data-i18n="access.restore">Cấp lại quyền thư mục</button>
+  </section>
+
+  <div class="notice" id="notice" role="status" aria-live="polite"></div>
+  <footer><span data-i18n="footer.privacy">Chạy trên máy · Không cần API key · Không xóa file ngoài ZIP</span><span class="footer-version">v1.0.0</span></footer>
+</main>
+<script type="module" src="sidepanel.js"></script>
+</body>
+</html>

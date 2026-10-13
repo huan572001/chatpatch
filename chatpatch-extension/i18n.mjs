@@ -1,0 +1,206 @@
+/** User-facing copy only. ZIP routing, file operations and permissions are unchanged. */
+export const DEFAULT_LANGUAGE = 'vi';
+export const LANGUAGES = Object.freeze(['vi', 'en']);
+export const messages = {
+  vi: {
+    'app.subtitle':'Đồng bộ mã nguồn từ ChatGPT', 'language.label':'Ngôn ngữ',
+    'overview.label':'CÁCH HOẠT ĐỘNG',
+    'overview.description':'Liên kết cuộc chat với thư mục dự án. Tải ZIP như bình thường và ChatPatch tự cập nhật source.',
+    'files.title':'Quyền đọc ZIP đã tải','files.checking':'Đang kiểm tra','files.description':'Không cần thư mục nhận ZIP. Để đồng bộ tự động, bật quyền “Allow access to file URLs” trong Chrome. Quyền này cho phép đọc các file local khác — chỉ bật nếu bạn tin cậy Extension.',
+    'files.settings':'Mở cài đặt quyền Extension','files.granted':'Đã bật','files.missing':'Chưa bật','files.ready':'Đã bật quyền đọc file local. ZIP tiếp tục được tải vào vị trí mặc định của Chrome.','files.help':'Mở cài đặt → ChatPatch → bật “Allow access to file URLs”. Sau đó mở lại bảng điều khiển.',
+    'status.unselected':'Chưa chọn', 'status.granted':'Đã cấp quyền','status.prompt':'Cần xác nhận lại', 'status.denied':'Bị từ chối', 'status.missing':'Thiếu liên kết','status.error':'Không kiểm tra được',
+    'chat.title':'Cuộc chat hiện tại','chat.refresh':'Làm mới','chat.detecting':'Đang nhận diện cuộc chat…',
+    'chat.link':'Liên kết thư mục với chat này','chat.change':'Đổi thư mục của chat này','chat.unlink':'Hủy liên kết',
+    'chat.help':'Mở cuộc chat ChatGPT có địa chỉ chứa /c/ rồi làm mới.', 'chat.defaultTitle':'Cuộc chat ChatGPT','chat.folderLink':'{folder} · đã liên kết',
+    'chat.connectedHelp':'ZIP tải từ chat này sẽ được cập nhật vào thư mục đã liên kết khi bật đồng bộ.','chat.unlinkedHelp':'Liên kết một thư mục với cuộc chat này để bắt đầu tự đồng bộ.',
+    'chat.notOpen':'Chưa mở cuộc chat cụ thể trên chatgpt.com.', 'chat.notOpenHelp':'Mở một cuộc chat trong ChatGPT rồi quay lại và nhấn Làm mới.',
+    'links.title':'Các thư mục đã liên kết','links.empty':'Chưa có liên kết nào.','links.defaultTitle':'Cuộc chat',
+    'links.enabled':'Đang bật','links.disabled':'Đã tắt','links.open':'Mở chat','links.permission':'Cấp quyền thư mục',
+    'links.lastSynced':'Đã đồng bộ {count} file',
+    'root.auto':'Cấu trúc ZIP: Tự động','root.always':'Cấu trúc ZIP: Bỏ lớp ngoài','root.never':'Cấu trúc ZIP: Giữ nguyên',
+    'root.noticeAuto':'Tự nhận diện thư mục bao ngoài trong ZIP.',
+    'root.noticeAlways':'Sẽ bỏ một lớp thư mục bao ngoài nếu ZIP có một thư mục gốc.',
+    'root.noticeNever':'Giữ nguyên cấu trúc thư mục trong ZIP.',
+    'tools.title':'Công cụ đồng bộ','tools.description':'Nếu ZIP không tự cập nhật, kiểm tra tải xuống gần đây hoặc chọn file ZIP thủ công.',
+    'tools.check':'Kiểm tra tải xuống','tools.manual':'Chọn ZIP cập nhật',
+    'activity.title':'Lịch sử hoạt động','activity.retryAll':'Thử lại ZIP lỗi','activity.empty':'Chưa có hoạt động nào.',
+    'activity.pending':'ZIP chưa đồng bộ · {file}','activity.retryOne':'Thử lại ZIP này',
+    'access.title':'Quyền truy cập', 'access.description':'Chrome đôi khi yêu cầu cấp lại quyền sau khi khởi động. Mỗi lượt xác nhận chỉ áp dụng cho một thư mục.',
+    'access.restore':'Cấp lại quyền thư mục','access.allGranted':'Tất cả thư mục đã có quyền',
+    'access.none':'Chưa có thư mục cần cấp quyền.','access.summary':'Đã cấp quyền {granted}/{total} thư mục.','access.remaining':'Còn thư mục cần xác nhận.','access.ready':'Sẵn sàng đồng bộ.',
+    'footer.privacy':'Chạy trên máy · Không cần API key · Không xóa file ngoài ZIP',
+    'notice.missingProject':'Không tìm thấy thư mục source đã lưu. Mở đúng chat và chọn lại thư mục.',
+    'notice.permissionDialog':'Chrome không thể mở hộp thoại cấp quyền: {details}',
+    'notice.permissionGrantedRemaining':'Đã cấp quyền cho {folder}. Còn {remaining} thư mục cần kiểm tra.',
+    'notice.permissionGranted':'Đã khôi phục quyền. Bạn có thể thử đồng bộ lại ZIP.',
+    'notice.permissionResult':'Chrome trả về quyền “{result}” cho {folder}. Hãy cấp quyền hoặc chọn lại thư mục.',
+    'notice.permissionFail':'Không thể khôi phục quyền cho {folder}: {details}',
+    'notice.toggled':'Đã thay đổi trạng thái tự đồng bộ.',
+    'notice.retrySent':'Đã gửi yêu cầu thử lại.',
+    'notice.openChatFirst':'Hãy mở một cuộc chat ChatGPT trước.',
+    'notice.invalidSource':'Không thể liên kết thư mục nhận ZIP làm source.',
+    'notice.linked':'Đã liên kết {folder} và bật tự đồng bộ.',
+    'notice.confirmUnlink':'Hủy liên kết cuộc chat này? File trên máy sẽ không bị xóa.',
+    'notice.unlinked':'Đã hủy liên kết.',
+    'notice.reselectMissing':'Có thư mục mất liên kết. Hãy chọn lại thư mục ZIP hoặc thư mục source của chat.',
+    'notice.allGranted':'Các thư mục đã có quyền truy cập.',
+    'download.routed':'Đã nhận','download.notRouted':'Chưa nhận','download.pending':'đang lỗi',
+    'download.state.complete':'Hoàn tất','download.state.in_progress':'Đang tải','download.state.interrupted':'Bị gián đoạn',
+    'download.empty':'Chưa có ZIP trong 10 lượt tải gần đây.',
+    'notice.manualNeedsChat':'Mở chat đã liên kết và bật tự đồng bộ trước.',
+    'notice.chooseZip':'Vui lòng chọn file .zip',
+    'notice.manualProcessing':'Đang kiểm tra và cập nhật ZIP vào {folder}…',
+    'notice.manualSuccess':'Đã áp dụng {updated} file; {unchanged} file không thay đổi. Xem thư mục .chatpatch-backups.',
+    'notice.noFailed':'Không có ZIP lỗi cần thử lại.','notice.retryAll':'Đã yêu cầu thử lại {count} ZIP.',
+  },
+  en: {
+    'app.subtitle':'Sync source files from ChatGPT', 'language.label':'Language',
+    'overview.label':'HOW IT WORKS',
+    'overview.description':'Link a ChatGPT conversation to a local project. Download a ZIP normally and ChatPatch updates the source.',
+    'files.title':'Downloaded ZIP access','files.checking':'Checking','files.description':'No ZIP inbox folder is needed. For automatic sync, enable “Allow access to file URLs” in Chrome. This also grants access to other local files — enable only if you trust this extension.',
+    'files.settings':'Open extension permissions','files.granted':'Enabled','files.missing':'Not enabled','files.ready':'Local file access is enabled. ZIPs stay in Chrome’s normal download location.','files.help':'Open extension details → enable “Allow access to file URLs”. Then reopen this panel.',
+    'status.unselected':'Not selected','status.granted':'Access granted','status.prompt':'Permission required','status.denied':'Access denied','status.missing':'Not linked','status.error':'Unable to check',
+    'chat.title':'Current conversation','chat.refresh':'Refresh','chat.detecting':'Detecting conversation…',
+    'chat.link':'Link a folder to this chat','chat.change':'Change linked folder','chat.unlink':'Unlink',
+    'chat.help':'Open a ChatGPT conversation with /c/ in the URL, then refresh.', 'chat.defaultTitle':'ChatGPT conversation','chat.folderLink':'{folder} · linked',
+    'chat.connectedHelp':'ZIPs downloaded from this chat will update its linked folder when sync is enabled.','chat.unlinkedHelp':'Link a local folder to this conversation to enable automatic sync.',
+    'chat.notOpen':'No individual ChatGPT conversation is open.','chat.notOpenHelp':'Open a ChatGPT conversation, return here, and select Refresh.',
+    'links.title':'Linked folders','links.empty':'No conversations linked yet.','links.defaultTitle':'Conversation',
+    'links.enabled':'Enabled','links.disabled':'Disabled','links.open':'Open chat','links.permission':'Grant folder access',
+    'links.lastSynced':'Synced {count} files',
+    'root.auto':'ZIP structure: Auto','root.always':'ZIP structure: Strip wrapper','root.never':'ZIP structure: Keep folders',
+    'root.noticeAuto':'Automatically detect and remove a packaging folder in the ZIP.',
+    'root.noticeAlways':'Remove one wrapping folder when the ZIP has a single top-level folder.',
+    'root.noticeNever':'Keep the ZIP folder structure as-is.',
+    'tools.title':'Sync tools','tools.description':'If automatic sync fails, inspect recent downloads or select a ZIP manually.',
+    'tools.check':'Check downloads','tools.manual':'Choose ZIP to apply',
+    'activity.title':'Activity','activity.retryAll':'Retry failed ZIPs','activity.empty':'No activity yet.',
+    'activity.pending':'ZIP not synced · {file}','activity.retryOne':'Retry this ZIP',
+    'access.title':'Folder access','access.description':'Chrome may ask you to re-grant permissions after restarting. Each click can restore access to one folder.',
+    'access.restore':'Restore folder access','access.allGranted':'All folders have access',
+    'access.none':'No folders to authorize.','access.summary':'Access granted for {granted} of {total} folders.','access.remaining':'Some folders need permission.','access.ready':'Ready to sync.',
+    'footer.privacy':'Runs locally · No API key · Files absent from a ZIP are preserved',
+    'notice.missingProject':'Saved source folder unavailable. Open the chat and select the source folder again.',
+    'notice.permissionDialog':'Chrome could not open the permission prompt: {details}',
+    'notice.permissionGrantedRemaining':'Access granted for {folder}. {remaining} folder(s) still need checking.',
+    'notice.permissionGranted':'Access restored. You can retry the ZIP sync.',
+    'notice.permissionResult':'Chrome returned “{result}” for {folder}. Grant access or select the folder again.',
+    'notice.permissionFail':'Could not restore access to {folder}: {details}',
+    'notice.toggled':'Auto-sync setting updated.',
+    'notice.retrySent':'Retry requested.',
+    'notice.openChatFirst':'Open a ChatGPT conversation first.',
+    'notice.invalidSource':'Do not select the backup folder as your project.',
+    'notice.linked':'Linked {folder} and enabled auto-sync.',
+    'notice.confirmUnlink':'Unlink this chat? Files on your computer will not be deleted.',
+    'notice.unlinked':'Conversation unlinked.',
+    'notice.reselectMissing':'Some project folder links are missing. Please re-link those folders.',
+    'notice.allGranted':'All folders have access.',
+    'download.routed':'Captured','download.notRouted':'Not captured','download.pending':'failed',
+    'download.state.complete':'Complete','download.state.in_progress':'In progress','download.state.interrupted':'Interrupted',
+    'download.empty':'No ZIPs found in the last 10 downloads.',
+    'notice.manualNeedsChat':'Open a linked conversation and enable auto-sync first.',
+    'notice.chooseZip':'Select a .zip file',
+    'notice.manualProcessing':'Checking and applying ZIP to {folder}…',
+    'notice.manualSuccess':'Applied {updated} files; {unchanged} unchanged. See .chatpatch-backups.',
+    'notice.noFailed':'No failed ZIPs to retry.','notice.retryAll':'Retry requested for {count} ZIP(s).',
+  }
+};
+export function normalizeLanguage(language){return LANGUAGES.includes(language) ? language : DEFAULT_LANGUAGE;}
+export function translate(language,key,params={}) {
+  const msg = messages[normalizeLanguage(language)][key] ?? messages.vi[key] ?? key;
+  return msg.replace(/\{(\w+)\}/g, (_, k) => String(params[k] ?? ''));
+}
+
+/** Legacy activity entries are stored in Vietnamese by existing v2.1.x workers.
+ * Translate known event patterns for the English UI without mutating storage. */
+export function translateActivity(language, message) {
+  // Show legacy download events without displaying obsolete brand names.
+  const raw=String(message ?? '');
+  const input=raw.startsWith('ZIP đã tải nhưng Chrome lưu ngoài ') && !raw.startsWith('ZIP đã tải nhưng Chrome lưu ngoài ChatPatch-Sync:')
+    ? raw.replace(/^ZIP đã tải nhưng Chrome lưu ngoài [^:]+:/,'ZIP đã tải nhưng Chrome lưu ngoài thư mục nhận ZIP cũ:')
+    : raw;
+  if(normalizeLanguage(language)==='vi')return input;
+  const pairs = [
+    [/^Đã bắt ZIP \(([^)]*)\) từ chat (.+?): (.+)$/,'Captured ZIP ($1) from chat $2: $3'],
+    [/^Đã thấy ZIP nhưng KHÔNG đồng bộ: (.+?) — (.+)$/,'ZIP detected but not synced: $1 — $2'],
+    [/^ZIP đã tải nhưng Chrome lưu ngoài (?:ChatPatch-Sync|thư mục nhận ZIP cũ): (.+?)\. Hãy tắt hộp thoại Save As hoặc extension đổi tên tải khác\.$/,'ZIP was saved outside the configured inbox: $1. Disable Save As prompts or conflicting download extensions.'],
+    [/^Nhập ZIP thủ công: cập nhật (\d+) file(.*?) → (.+)$/,'Manual ZIP import: updated $1 files$2 → $3'],
+    [/^Nhập ZIP thủ công thất bại: (.*)$/,'Manual ZIP import failed: $1'],
+    [/^Đồng bộ (\d+) file, (\d+) không đổi(.*?) → (.+)$/,'Synced $1 files, $2 unchanged$3 → $4'],
+    [/^Chưa thể đồng bộ (.+?): (.+)$/,'Could not sync $1: $2'],
+    [/^Không xử lý được ZIP: (.*)$/,'Could not process ZIP: $1'],
+  ];
+  let result=input;
+  for(const [pattern,replacement] of pairs)if(pattern.test(input)){result=input.replace(pattern,replacement);break;}
+  const details={
+    'Nguồn tải ZIP không thuộc ChatGPT/OpenAI đã cho phép':'ZIP origin is not an allowed ChatGPT/OpenAI domain',
+    'Trang giới thiệu lượt tải không thuộc ChatGPT':'Download referrer is not ChatGPT',
+    'Đường dẫn nguồn không hợp lệ':'Invalid source URL',
+    'Không tìm thấy tab Chrome đang hoạt động':'No active Chrome tab',
+    'Tab đang mở không phải cuộc chat cụ thể trên ChatGPT':'Active tab is not a ChatGPT conversation',
+    'Chat đang mở chưa được liên kết hoặc đã tắt tự đồng bộ':'Active chat is not linked or auto-sync is disabled',
+    'Có lượt tải từ chat khác gần đây; không tự đoán chat đích':'A recent download came from another chat; destination not inferred',
+    'Nguồn tải ghi nhận ID chat khác':'Download source belongs to a different chat',
+    'Cuộc chat đã hủy liên kết hoặc tắt tự đồng bộ':'Chat was unlinked or auto-sync disabled',
+    'Không có phản hồi từ trình xử lý ZIP':'No response from ZIP processor',
+    'ZIP metadata không hợp lệ':'Invalid ZIP metadata',
+    'Thư mục con được trả về không hợp lệ.':'The selected subfolder is invalid.',
+    'Bạn chưa chọn một thư mục hợp lệ.':'No valid directory was selected.',
+    'Không thể xử lý ZIP':'Unable to process ZIP',
+    'Chat này chưa được liên kết hoặc đang tắt đồng bộ':'This chat is not linked or sync is disabled',
+    'Không thấy ZIP cần xử lý':'ZIP not found for retry',
+    'Đã cập nhật':'Updated',
+    'Không được phép truy cập':'Access denied',
+    'Không thể thiết lập':'Unable to set up',
+    'Chrome không cho phép tạo/đọc':'Chrome cannot create/read',
+    'Đường dẫn ZIP không hợp lệ':'Invalid ZIP path',
+    'ZIP chứa đường dẫn tuyệt đối':'ZIP contains an absolute path',
+    'ZIP chứa đường dẫn không an toàn':'ZIP contains an unsafe path',
+    'Dữ liệu ZIP không hợp lệ':'Invalid ZIP data',
+    'ZIP vượt giới hạn 30 MB':'ZIP exceeds 30 MB limit',
+    'ZIP vượt 30 MB':'ZIP exceeds 30 MB',
+    'ZIP không có phần kết thúc hợp lệ (EOCD); file có thể tải chưa đủ hoặc không phải ZIP thật':'ZIP end record (EOCD) missing; the download may be incomplete or not a valid ZIP',
+    'ZIP nhiều phần/ổ đĩa không được hỗ trợ':'Split/multi-volume ZIP is unsupported',
+    'ZIP64 chưa được hỗ trợ':'ZIP64 is not supported',
+    'Bảng ZIP bị hỏng':'ZIP central directory is corrupted',
+    'ZIP có Central Directory không hợp lệ':'ZIP central directory is invalid',
+    'Bảng ZIP vượt quá phần dữ liệu lưu trữ':'ZIP central directory extends beyond archive data',
+    'ZIP Central Directory lỗi tại mục':'ZIP central directory error at entry',
+    'ZIP mã hóa hoặc phương thức nén không được hỗ trợ':'Encrypted ZIP or unsupported compression method',
+    'File trong ZIP quá lớn':'File inside ZIP is too large',
+    'ZIP có tỉ lệ nén bất thường':'ZIP has an unusually high compression ratio',
+    'ZIP chứa symbolic link':'ZIP contains a symbolic link',
+    'ZIP vượt 120 MB dữ liệu giải nén':'Uncompressed ZIP exceeds 120 MB',
+    'ZIP không chứa file':'ZIP contains no files',
+    'ZIP trùng đường dẫn sau xử lý':'Duplicate ZIP path after processing',
+    'ZIP trùng đường dẫn':'Duplicate path in ZIP',
+    'Chế độ cấu trúc ZIP không hợp lệ':'Invalid ZIP folder structure mode',
+    'Không có file an toàn để cập nhật':'No safe files to apply',
+    'Chưa cấp quyền cho thư mục cần dùng. Mở bảng điều khiển và chọn thư mục.':'Required folder permission missing. Open the side panel and select the folder.',
+    'Quyền truy cập thư mục đã hết hạn. Mở ChatPatch và nhấn "Cấp lại quyền".':'Folder permission expired. Open ChatPatch and restore access.',
+    'Quyền truy cập thư mục đã hết hạn. Mở ChatPatch và nhấn "Cấp lại quyền".':'Folder permission expired. Open ChatPatch and restore access.',
+    'Cuộc chat không còn được bật đồng bộ hoặc thiếu cấu hình thư mục':'Chat sync is disabled or folder configuration is missing',
+    'Thư mục được liên kết đã thay đổi':'Linked folder has changed',
+    'Tên ZIP không hợp lệ':'Invalid ZIP filename',
+    'Chỉ hỗ trợ file ZIP':'Only ZIP files are supported',
+    'ZIP thiếu file':'File missing from ZIP',
+    'Dung lượng file ZIP không khớp':'ZIP entry size mismatch',
+    'ZIP vượt giới hạn giải nén 120 MB':'Uncompressed ZIP exceeds 120 MB',
+    'Đã cập nhật ':'Updated ',
+    'file trước khi lỗi':'file(s) before error',
+    'Bản sao lưu trong .chatpatch-backups (cần kiểm tra)':'Backups in .chatpatch-backups (review needed)',
+    'Hãy chọn thư mục Downloads hoặc đúng':'Select Downloads or the correct folder',
+    'Hãy chọn một thư mục cha được phép ghi hoặc chọn trực tiếp':'Choose a writable parent folder or select',
+    'vượt giới hạn':'exceeds limit',
+    'Không thể':'Unable to'
+
+  };
+  for(const [from,to] of Object.entries(details))result=result.replace(from,to);
+  result=result.replaceAll(' (bỏ lớp ',' (removed wrapper ');
+  return result;
+}
+
+/** Error strings from browser services and older ZIP modules are not stored in the i18n table. */
+export function translateError(language, message) {
+  return translateActivity(language, message);
+}
